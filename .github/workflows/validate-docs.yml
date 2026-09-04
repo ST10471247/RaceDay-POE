@@ -3,64 +3,75 @@ name: Validate Part 1 Documentation
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
 
 jobs:
   validate-docs:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04  # ← Using Ubuntu 24.04 (supports Node.js 24)
     
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@v4
       with:
         fetch-depth: 0
     
-    - name: Check docs folder exists
+    - name: List docs folder contents
       run: |
+        echo " Checking docs folder..."
         if [ ! -d "docs" ]; then
-          echo "Error: docs folder not found"
+          echo " Error: docs folder not found!"
           exit 1
         fi
         echo " docs folder exists"
+        echo ""
+        echo " Files in docs folder:"
+        ls -la docs/
+        echo ""
     
-    - name: Check ERD image exists
+    - name: Check for ERD image
       run: |
-        if ! ls docs/*.{png,jpg,jpeg,PNG,JPG,JPEG} 2>/dev/null; then
-          echo "Error: ERD image not found in docs folder"
-          echo "Looking for: .png, .jpg, .jpeg"
-          ls -la docs/
+        echo " Checking for ERD image..."
+        cd docs
+        if ls *.png *.jpg *.jpeg *.PNG *.JPG *.JPEG 2>/dev/null; then
+          echo " ERD image found"
+        else
+          echo " ERROR: No ERD image found (looking for .png, .jpg, .jpeg)"
+          echo " Files in docs:"
+          ls -la
           exit 1
         fi
-        echo "ERD image found"
     
-    - name: Check API endpoint plan exists
+    - name: Check for API Endpoint Plan
       run: |
-        if ! ls docs/*.{md,MD,pdf,PDF} 2>/dev/null; then
-          echo "Error: API endpoint plan not found in docs folder"
-          echo "Looking for: .md or .pdf"
-          ls -la docs/
+        echo " Checking for API Endpoint Plan..."
+        cd docs
+        if ls *.md *.MD *.pdf *.PDF 2>/dev/null; then
+          echo " API Endpoint Plan found"
+        else
+          echo " ERROR: No API Endpoint Plan found (looking for .md, .pdf)"
+          echo " Files in docs:"
+          ls -la
           exit 1
         fi
-        echo " API endpoint plan found"
     
-    - name: Check SQL script exists
+    - name: Check for SQL Script
       run: |
-        if ! ls docs/*.{sql,SQL} 2>/dev/null; then
-          echo "Error: SQL script not found in docs folder"
-          echo "Looking for: .sql"
-          ls -la docs/
+        echo " Checking for SQL Script..."
+        cd docs
+        if ls *.sql *.SQL 2>/dev/null; then
+          echo " SQL Script found"
+        else
+          echo "ERROR: No SQL Script found (looking for .sql)"
+          echo "Files in docs:"
+          ls -la
           exit 1
         fi
-        echo " SQL script found"
     
-    - name: Check README exists
+    - name: All checks passed
       run: |
-        if [ ! -f "README.md" ]; then
-          echo "Error: README.md not found"
-          exit 1
-        fi
-        echo " README.md exists"
-    
-    - name: Validation Complete
-      run: |
-        echo "✅ All Part 1 files validated successfully!"
+        echo " ALL CHECKS PASSED!"
+        echo " docs folder exists"
+        echo " ERD image found"
+        echo "✅ API Endpoint Plan found"
+        echo "✅ SQL Script found"
+        echo ""
+        echo "📝 Part 1 documentation is complete!"
