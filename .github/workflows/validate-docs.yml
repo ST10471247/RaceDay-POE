@@ -6,72 +6,68 @@ on:
 
 jobs:
   validate-docs:
-    runs-on: ubuntu-24.04  # ← Using Ubuntu 24.04 (supports Node.js 24)
+    runs-on: ubuntu-latest
     
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v3
       with:
         fetch-depth: 0
     
-    - name: List docs folder contents
+    - name: Check docs folder exists
       run: |
-        echo " Checking docs folder..."
         if [ ! -d "docs" ]; then
-          echo " Error: docs folder not found!"
+          echo "Error: docs folder not found"
           exit 1
         fi
-        echo " docs folder exists"
-        echo ""
-        echo " Files in docs folder:"
+        echo "docs folder exists"
+    
+    - name: List docs folder contents
+      run: |
+        echo "Files in docs folder:"
         ls -la docs/
-        echo ""
     
     - name: Check for ERD image
       run: |
-        echo " Checking for ERD image..."
         cd docs
         if ls *.png *.jpg *.jpeg *.PNG *.JPG *.JPEG 2>/dev/null; then
-          echo " ERD image found"
+          echo "ERD image found"
         else
-          echo " ERROR: No ERD image found (looking for .png, .jpg, .jpeg)"
-          echo " Files in docs:"
-          ls -la
+          echo "Error: No ERD image found"
+          echo "Looking for: .png, .jpg, .jpeg"
           exit 1
         fi
     
     - name: Check for API Endpoint Plan
       run: |
-        echo " Checking for API Endpoint Plan..."
         cd docs
         if ls *.md *.MD *.pdf *.PDF 2>/dev/null; then
-          echo " API Endpoint Plan found"
+          echo "API Endpoint Plan found"
         else
-          echo " ERROR: No API Endpoint Plan found (looking for .md, .pdf)"
-          echo " Files in docs:"
-          ls -la
+          echo "Error: No API Endpoint Plan found"
+          echo "Looking for: .md, .pdf"
           exit 1
         fi
     
     - name: Check for SQL Script
       run: |
-        echo " Checking for SQL Script..."
         cd docs
         if ls *.sql *.SQL 2>/dev/null; then
-          echo " SQL Script found"
+          echo "SQL Script found"
         else
-          echo "ERROR: No SQL Script found (looking for .sql)"
-          echo "Files in docs:"
-          ls -la
+          echo "Error: No SQL Script found"
+          echo "Looking for: .sql"
           exit 1
         fi
     
-    - name: All checks passed
+    - name: Check README exists
       run: |
-        echo " ALL CHECKS PASSED!"
-        echo " docs folder exists"
-        echo " ERD image found"
-        echo "✅ API Endpoint Plan found"
-        echo "✅ SQL Script found"
-        echo ""
-        echo "📝 Part 1 documentation is complete!"
+        if [ ! -f "README.md" ]; then
+          echo "Error: README.md not found"
+          exit 1
+        fi
+        echo "README.md exists"
+    
+    - name: Validation complete
+      run: |
+        echo "All Part 1 files validated successfully"
