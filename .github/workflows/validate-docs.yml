@@ -12,6 +12,8 @@ jobs:
     
     steps:
     - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
     
     - name: Check docs folder exists
       run: |
@@ -19,31 +21,37 @@ jobs:
           echo "Error: docs folder not found"
           exit 1
         fi
-        echo "✅ docs folder exists"
+        echo " docs folder exists"
     
     - name: Check ERD image exists
       run: |
         if ! ls docs/*.{png,jpg,jpeg,PNG,JPG,JPEG} 2>/dev/null; then
-          echo "Error: ERD image not found"
+          echo "Error: ERD image not found in docs folder"
+          echo "Looking for: .png, .jpg, .jpeg"
+          ls -la docs/
           exit 1
         fi
-        echo "✅ ERD image found"
+        echo "ERD image found"
     
     - name: Check API endpoint plan exists
       run: |
         if ! ls docs/*.{md,MD,pdf,PDF} 2>/dev/null; then
-          echo "Error: API endpoint plan not found"
+          echo "Error: API endpoint plan not found in docs folder"
+          echo "Looking for: .md or .pdf"
+          ls -la docs/
           exit 1
         fi
-        echo "✅ API endpoint plan found"
+        echo " API endpoint plan found"
     
     - name: Check SQL script exists
       run: |
         if ! ls docs/*.{sql,SQL} 2>/dev/null; then
-          echo "Error: SQL script not found"
+          echo "Error: SQL script not found in docs folder"
+          echo "Looking for: .sql"
+          ls -la docs/
           exit 1
         fi
-        echo "✅ SQL script found"
+        echo " SQL script found"
     
     - name: Check README exists
       run: |
@@ -51,4 +59,8 @@ jobs:
           echo "Error: README.md not found"
           exit 1
         fi
-        echo "✅ README.md exists"
+        echo " README.md exists"
+    
+    - name: Validation Complete
+      run: |
+        echo "✅ All Part 1 files validated successfully!"
