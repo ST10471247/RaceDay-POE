@@ -1,0 +1,54 @@
+name: Validate Part 1 Documentation
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate-docs:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Check docs folder exists
+      run: |
+        if [ ! -d "docs" ]; then
+          echo "Error: docs folder not found"
+          exit 1
+        fi
+        echo "✅ docs folder exists"
+    
+    - name: Check ERD image exists
+      run: |
+        if ! ls docs/*.{png,jpg,jpeg,PNG,JPG,JPEG} 2>/dev/null; then
+          echo "Error: ERD image not found"
+          exit 1
+        fi
+        echo "✅ ERD image found"
+    
+    - name: Check API endpoint plan exists
+      run: |
+        if ! ls docs/*.{md,MD,pdf,PDF} 2>/dev/null; then
+          echo "Error: API endpoint plan not found"
+          exit 1
+        fi
+        echo "✅ API endpoint plan found"
+    
+    - name: Check SQL script exists
+      run: |
+        if ! ls docs/*.{sql,SQL} 2>/dev/null; then
+          echo "Error: SQL script not found"
+          exit 1
+        fi
+        echo "✅ SQL script found"
+    
+    - name: Check README exists
+      run: |
+        if [ ! -f "README.md" ]; then
+          echo "Error: README.md not found"
+          exit 1
+        fi
+        echo "✅ README.md exists"
