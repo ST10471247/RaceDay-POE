@@ -3,17 +3,17 @@ name: Validate Part 1 Documentation
 on:
   push:
     branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
   validate-docs:
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Checkout repository
-      run: |
-        git clone https://github.com/${{ github.repository }}.git .
-        git checkout ${{ github.sha }}
-    
+      uses: actions/checkout@v3
+
     - name: Check docs folder exists
       run: |
         if [ ! -d "docs" ]; then
@@ -21,45 +21,45 @@ jobs:
           exit 1
         fi
         echo "docs folder exists"
-    
+
     - name: List docs folder contents
       run: |
         echo "Files in docs folder:"
         ls -la docs/
-    
+
     - name: Check for ERD image
       run: |
         cd docs
-        if ls *.png *.jpg *.jpeg *.PNG *.JPG *.JPEG 2>/dev/null; then
-          echo "ERD image found"
-        else
-          echo "Error: No ERD image found"
-          echo "Looking for: .png, .jpg, .jpeg"
+        FOUND=$(ls | grep -iE '^ERD\.(png|jpg|jpeg)$' | head -1)
+        if [ -z "$FOUND" ]; then
+          echo "Error: No ERD image found (looking for ERD.png, ERD.jpg, ERD.jpeg)"
+          ls -la
           exit 1
         fi
-    
+        echo "ERD image found: $FOUND"
+
     - name: Check for API Endpoint Plan
       run: |
         cd docs
-        if ls *.md *.MD *.pdf *.PDF 2>/dev/null; then
-          echo "API Endpoint Plan found"
-        else
+        FOUND=$(ls | grep -iE 'API.*Plan.*\.(md|pdf)$' | head -1)
+        if [ -z "$FOUND" ]; then
           echo "Error: No API Endpoint Plan found"
-          echo "Looking for: .md, .pdf"
+          ls -la
           exit 1
         fi
-    
+        echo "API Endpoint Plan found: $FOUND"
+
     - name: Check for SQL Script
       run: |
         cd docs
-        if ls *.sql *.SQL 2>/dev/null; then
-          echo "SQL Script found"
-        else
+        FOUND=$(ls | grep -iE '\.sql$' | head -1)
+        if [ -z "$FOUND" ]; then
           echo "Error: No SQL Script found"
-          echo "Looking for: .sql"
+          ls -la
           exit 1
         fi
-    
+        echo "SQL Script found: $FOUND"
+
     - name: Check README exists
       run: |
         if [ ! -f "README.md" ]; then
@@ -67,11 +67,7 @@ jobs:
           exit 1
         fi
         echo "README.md exists"
-    
+
     - name: Validation complete
       run: |
-
         echo "All Part 1 files validated successfully"
-
-        
-
