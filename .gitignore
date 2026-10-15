@@ -1,0 +1,42 @@
+# Visual Studio files
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build results
+bin/
+obj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+
+# Rider
+.idea/
+
+# VS Code
+.vscode/
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Mac
+.DS_Store
+
+# Publish
+publish/
+*.pubxml
+
+# NuGet
+*.nupkg
+*.snupkg
+
+# Test results
+[Tt]est[Rr]esult*/
+*.trx
+
+# Logs
+*.log
