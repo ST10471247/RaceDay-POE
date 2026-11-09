@@ -62,8 +62,8 @@ CI/CD Pipeline
 YouTube Video Presentation
 (Replace these with your actual links once you record them)
 
-Part 1: [Insert Part 1 Link Here]
+Part 1: https://youtu.be/DnozwfZOdiA
 
-Part 2: [Insert Part 2 Link Here]
+Part 2: https://youtu.be/899_8_SpNTc
 
-Part 3: [Insert Part 3 Link Here]
+Part 3: https://youtu.be/Ve9zWd9EifQ
