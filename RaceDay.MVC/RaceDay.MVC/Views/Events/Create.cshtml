@@ -1,0 +1,53 @@
+﻿@model RaceDay.MVC.Models.ViewModels.CreateEventViewModel
+@{
+    ViewData["Title"] = "Create Event";
+}
+
+<div class="container mt-4">
+    <h2>Create New Event</h2>
+    <hr />
+    <div class="row">
+        <div class="col-md-6">
+            <!-- MUST have enctype for file upload -->
+            <form asp-action="Create" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="mb-3">
+                    <label asp-for="Name" class="form-label">Event Name</label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Description" class="form-label">Description</label>
+                    <textarea asp-for="Description" class="form-control"></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="EventDate" class="form-label">Date</label>
+                    <input asp-for="EventDate" class="form-control" type="date" />
+                    <span asp-validation-for="EventDate" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Location" class="form-label">Location</label>
+                    <input asp-for="Location" class="form-control" />
+                    <span asp-validation-for="Location" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="MaxParticipants" class="form-label">Max Participants</label>
+                    <input asp-for="MaxParticipants" class="form-control" type="number" />
+                    <span asp-validation-for="MaxParticipants" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="ImageFile" class="form-label">Event Poster (Azure Blob Upload)</label>
+                    <input asp-for="ImageFile" class="form-control" type="file" accept="image/*" />
+                </div>
+
+                <button type="submit" class="btn btn-primary">Create Event</button>
+            </form>
+        </div>
+    </div>
+</div>
