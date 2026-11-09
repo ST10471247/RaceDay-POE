@@ -44,3 +44,26 @@ RaceDay is a comprehensive full-stack web-based event management system designed
 3. Run the following command:
    ```bash
    docker-compose up --build
+
+   Access the web application at: http://localhost:8081
+
+Access the API Swagger documentation at: http://localhost:8080/swagger
+
+Running Locally (Without Docker)
+Open RaceDay.sln in Visual Studio.
+
+Set both RaceDay.Api and RaceDay.MVC as startup projects.
+
+Press F5.
+
+CI/CD Pipeline
+![CI/CD Build](docs/cicd-screenshot.png)
+
+YouTube Video Presentation
+(Replace these with your actual links once you record them)
+
+Part 1: [Insert Part 1 Link Here]
+
+Part 2: [Insert Part 2 Link Here]
+
+Part 3: [Insert Part 3 Link Here]
